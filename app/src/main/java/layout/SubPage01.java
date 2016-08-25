@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import cn.fanrunqi.waveprogress.WaveProgressView;
 
 import com.sggscc.myapplication_6.R;
 
@@ -21,6 +24,9 @@ import com.sggscc.myapplication_6.R;
 public class SubPage01 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    @InjectView(R.id.waveProgressbar2)
+    WaveProgressView waveProgressbar2;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -55,17 +61,29 @@ public class SubPage01 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-    }
 
+    }
+    private void Init() {
+        waveProgressbar2.setCurrent(77, "788M/1024M");
+        waveProgressbar2.setWaveColor("#5b9ef4");
+        waveProgressbar2.setText("#FFFF00", 41);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sub_page01, container, false);
+        View view = inflater.inflate(R.layout.fragment_sub_page01, container, false);
+        ButterKnife.inject(getActivity());
+       // Init();
+        waveProgressbar2.setCurrent(77, "788M/1024M");
+        waveProgressbar2.setWaveColor("#5b9ef4");
+        waveProgressbar2.setText("#FFFF00", 41);
+        return view ;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
