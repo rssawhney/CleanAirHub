@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ import com.sggscc.myapplication_6.R;
  * Use the {@link SubPage02#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SubPage02 extends Fragment  {
+public class SubPage02 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,6 +66,7 @@ public class SubPage02 extends Fragment  {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     public void click(View v) {
         Intent intent;
 
@@ -81,7 +81,6 @@ public class SubPage02 extends Fragment  {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sub_page02, container, false);
         l1 = (LinearLayout)view.findViewById(R.id.layout1);
-        l1.setOnClickListener((OnClickListener) this);
       /*  l1 = (LinearLayout)view.findViewById(R.id.layout1);
         l2 = (LinearLayout)view.findViewById(R.id.layout2);
         l3 = (LinearLayout)view.findViewById(R.id.layout3);
@@ -99,13 +98,6 @@ public class SubPage02 extends Fragment  {
         return view;
     }
 
-    public void onClick(View v) {
-        Intent intent;
-
-        intent = new Intent(getActivity(),First.class);
-
-        startActivity(intent);
-        }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
