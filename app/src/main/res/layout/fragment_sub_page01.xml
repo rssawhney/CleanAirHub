@@ -17,8 +17,8 @@
              android:layout_centerHorizontal="true"
              android:layout_marginTop="57dp"
              android:background="@drawable/circle1"
-             android:layout_width="130dp"
-             android:layout_height="130dp" />
+             android:layout_width="250dp"
+             android:layout_height="250dp" />
 
          <LinearLayout
              android:id="@+id/layoutview1"

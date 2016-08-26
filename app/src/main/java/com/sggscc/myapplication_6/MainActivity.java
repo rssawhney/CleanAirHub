@@ -6,8 +6,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -37,6 +35,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import cn.fanrunqi.waveprogress.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == handlerState) {
@@ -164,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+       ;
     }
 
     private void read_database() {
@@ -413,6 +415,7 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
+
         }
 
         @Override
@@ -449,6 +452,9 @@ public class MainActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
+
+        @InjectView(R.id.waveProgressbar2)
+        cn.fanrunqi.waveprogress.WaveProgressView waveProgressbar2;
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
@@ -459,14 +465,18 @@ public class MainActivity extends AppCompatActivity {
 
         public PlaceholderFragment() {
         }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
+
             if(getArguments().getInt(ARG_SECTION_NUMBER)==1)
             {
+
                 View rootView = inflater.inflate(R.layout.fragment_sub_page01, container, false);
+                ButterKnife.inject(this,rootView);
+                Init();
                 return rootView;
+
             }
             else if(getArguments().getInt(ARG_SECTION_NUMBER)==2)
             {
@@ -482,6 +492,20 @@ public class MainActivity extends AppCompatActivity {
                 return rootView;
             }
         }
+        public void Init() {
+            waveProgressbar2.setCurrent(77, "788M/1024M");
+            waveProgressbar2.setWaveColor("#5b9ef4");
+            waveProgressbar2.setText("#FFFF00", 41);
+        }
+        public void click(View v) {
+            Intent intent;
+
+            intent = new Intent(getActivity(),First.class);
+
+            startActivity(intent);
+        }
+
+
     }
 
 }
