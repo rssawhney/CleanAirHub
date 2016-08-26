@@ -8,7 +8,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="layout.SubPage02">
+    tools:context="com.sggscc.myapplication_6.MainActivity">
 
     <RelativeLayout
         android:orientation="vertical" android:layout_width="match_parent"
