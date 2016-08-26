@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-  
+
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -168,9 +170,8 @@ public class MainActivity extends AppCompatActivity {
        ;
     }
 
-    private void read_database() {
+    private String read_database() {
 
-        String response =  "";
 
         try {
             FileInputStream fis = openFileInput("database.txt");
@@ -192,19 +193,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int dataLength = recDataString1.length();
+      //  int dataLength = recDataString1.length();
         // extract string
    //     txtString.setText("Data Received = " + recDataString1);
         						//get length of data received
     //    txtStringLength.setText("String Length = " + String.valueOf(dataLength));
 
-
+/*
         String[] sensor_values = new String[10];
         for (int i = 0; i < sensor_values.length; i++)
         {
             sensor_values[i] = recDataString1.substring(0,recDataString1.indexOf(" ")-1);
             recDataString1 = recDataString1.substring(recDataString1.indexOf(" ")+1);
-        }
+        }*/
 
    /*     sensorView0.setText(" Sensor 0 Voltage = " + sensor_values[0] + "V");	//update the textviews with sensor values
         sensorView1.setText(" Sensor 1 Voltage = " + sensor_values[1] + "V");
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
         sensorView9.setText(" Sensor 9 Voltage = " + sensor_values[9] + "V");*/
 
         recDataString1 = "";
+        return recDataString1;
     }
 
 
@@ -441,8 +443,11 @@ public class MainActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
+        MainActivity holder;
         private static final String ARG_SECTION_NUMBER = "section_number";
-
+        private String recDataString1;
+        TextView pm25_value, pm10_value, co2_value, co_value, nh3_value, no2_value, o3_value, temperature, humidity;
+        LinearLayout pm25, pm10, co2, co, nh3, no2, o3;
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -469,13 +474,34 @@ public class MainActivity extends AppCompatActivity {
 
                 View rootView = inflater.inflate(R.layout.fragment_sub_page01, container, false);
                 ButterKnife.inject(this,rootView);
-                Init();
+                temperature = (TextView) rootView.findViewById(R.id.temperature);
+                humidity = (TextView) rootView.findViewById(R.id.humidity);
+                init_aqi();
                 return rootView;
 
             }
             else if(getArguments().getInt(ARG_SECTION_NUMBER)==2)
             {
                 View rootView = inflater.inflate(R.layout.fragment_sub_page02, container, false);
+
+                pm25 = (LinearLayout) rootView.findViewById(R.id.pm25_layout);
+                pm10 = (LinearLayout) rootView.findViewById(R.id.pm10_layout);
+                co2 = (LinearLayout) rootView.findViewById(R.id.co2_layout);
+                co = (LinearLayout) rootView.findViewById(R.id.co_layout);
+                nh3 = (LinearLayout) rootView.findViewById(R.id.nh3_layout);
+                no2 = (LinearLayout) rootView.findViewById(R.id.no2_layout);
+                o3 = (LinearLayout) rootView.findViewById(R.id.o3_layout);
+
+                pm25_value = (TextView) rootView.findViewById(R.id.pm25_value);
+                pm10_value = (TextView) rootView.findViewById(R.id.pm10_value);
+                co2_value = (TextView) rootView.findViewById(R.id.co2_value);
+                co_value = (TextView) rootView.findViewById(R.id.co_value);
+                nh3_value = (TextView) rootView.findViewById(R.id.nh3_value);
+                no2_value = (TextView) rootView.findViewById(R.id.no2_value);
+                o3_value = (TextView) rootView.findViewById(R.id.o3_value);
+
+                init_sensor_values();
+
                 return rootView;
             }
 
@@ -487,20 +513,174 @@ public class MainActivity extends AppCompatActivity {
                 return rootView;
             }
         }
-        public void Init() {
-            waveProgressbar2.setCurrent(77, "788M/1024M");
-            waveProgressbar2.setWaveColor("#5b9ef4");
+
+        public void Init(String value, String color)
+        {
+            int Value = Integer.parseInt(value);
+            int per = (Value*100)/1024;
+            waveProgressbar2.setCurrent(per, value);
+            waveProgressbar2.setWaveColor(color);
             waveProgressbar2.setText("#FFFF00", 41);
         }
-        public void click(View v) {
-            Intent intent;
 
-            intent = new Intent(getActivity(),First.class);
+        public void init_sensor_values()
+        {
+            recDataString1 = holder.read_database();
+            int j=0;
+            String[] sensor_values = new String[7];
+            for (int i = 0; i < 13; i++)
+            {
+                if(i > 5) {
+                    sensor_values[j] = recDataString1.substring(0, recDataString1.indexOf(" ") - 1);
+                    j++;
+                }
+                recDataString1 = recDataString1.substring(recDataString1.indexOf(" ")+1);
+            }
 
-            startActivity(intent);
+            pm25_value.setText(sensor_values[0]);
+
+            int check = Integer.parseInt(sensor_values[0]);
+            if (check >= 0 && check <= 30)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 31 && check <= 60)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 61 && check <= 90)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 91 && check <= 120)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 121 && check <= 250)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 250)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            pm10_value.setText(sensor_values[1]);
+
+            check = Integer.parseInt(sensor_values[1]);
+            if (check >= 0 && check <= 50)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 51 && check <= 100)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 101 && check <= 250)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 251 && check <= 350)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 351 && check <= 430)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 430)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            co2_value.setText(sensor_values[2]);
+
+            check = Integer.parseInt(sensor_values[2]);
+            if (check >= 0 && check <= 30)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 31 && check <= 60)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 61 && check <= 90)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 91 && check <= 120)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 121 && check <= 250)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 250)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            co_value.setText(sensor_values[3]);
+
+            check = Integer.parseInt(sensor_values[3]);
+            if (check >= 0 && check <= 1)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 1.1 && check <= 2)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 2.1 && check <= 10)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 11 && check <= 17)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 18 && check <= 34)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 34)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            nh3_value.setText(sensor_values[4]);
+
+            check = Integer.parseInt(sensor_values[4]);
+            if (check >= 0 && check <= 200)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 201 && check <= 400)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 401 && check <= 800)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 801 && check <= 1200)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 1201 && check <= 1800)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 1800)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            no2_value.setText(sensor_values[5]);
+
+            check = Integer.parseInt(sensor_values[5]);
+            if (check >= 0 && check <= 40)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 41 && check <= 80)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 81 && check <= 180)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 181 && check <= 280)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 281 && check <= 400)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 400)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
+
+            o3_value.setText(sensor_values[6]);
+
+            check = Integer.parseInt(sensor_values[6]);
+            if (check >= 0 && check <= 50)
+                pm25.setBackgroundColor(Color.parseColor("#009933"));
+            else if(check >= 51 && check <= 100)
+                pm25.setBackgroundColor(Color.parseColor("#99cc00"));
+            else if(check >= 101 && check <= 168)
+                pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
+            else if(check >= 169 && check <= 208)
+                pm25.setBackgroundColor(Color.parseColor("#ff9933"));
+            else if(check >= 209 && check <= 748)
+                pm25.setBackgroundColor(Color.parseColor("#ff0000"));
+            else if(check > 748)
+                pm25.setBackgroundColor(Color.parseColor("#ac3939"));
         }
 
+        public void init_aqi()
+        {
+            recDataString1 = holder.read_database();
+            int j = 0;
+            String[] sensor_values = new String[3];
+            for (int i = 0; i < 13; i++)
+            {
+                if(i > 3 && i < 7) {
+                    sensor_values[j] = recDataString1.substring(0, recDataString1.indexOf(" ") - 1);
+                    j++;
+                }
+                recDataString1 = recDataString1.substring(recDataString1.indexOf(" ")+1);
+            }
 
+            temperature.setText(sensor_values[0]);
+            humidity.setText(sensor_values[1]);
+            int check = Integer.parseInt(sensor_values[2]);
+            if (check >= 0 && check <= 50)
+                Init(sensor_values[2],"#009933");
+            else if(check >= 51 && check <= 100)
+                Init(sensor_values[2],"#99cc00");
+            else if(check >= 101 && check <= 200)
+                Init(sensor_values[2],"#ffcc00");
+            else if(check >= 201 && check <= 300)
+                Init(sensor_values[2],"#ff9933");
+            else if(check >= 301 && check <= 400)
+                Init(sensor_values[2],"#ff0000");
+            else if(check >= 401 && check <= 500)
+                Init(sensor_values[2],"#ac3939");
+
+        }
     }
 
 }
