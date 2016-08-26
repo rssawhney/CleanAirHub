@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
 
         String response =  "";
 
-
         try {
             FileInputStream fis = openFileInput("database.txt");
             InputStreamReader isr = new InputStreamReader(fis);
@@ -190,17 +189,13 @@ public class MainActivity extends AppCompatActivity {
             recDataString1 = s.substring(s.lastIndexOf("#")+1);
 
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
+        int dataLength = recDataString1.length();
         // extract string
    //     txtString.setText("Data Received = " + recDataString1);
-        int dataLength = recDataString1.length();							//get length of data received
+        						//get length of data received
     //    txtStringLength.setText("String Length = " + String.valueOf(dataLength));
 
 
@@ -453,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
          * number.
          */
 
-        @InjectView(R.id.waveProgressbar2)
+        @InjectView(R.id.aqi)
         cn.fanrunqi.waveprogress.WaveProgressView waveProgressbar2;
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
