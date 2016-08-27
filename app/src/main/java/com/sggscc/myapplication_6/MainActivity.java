@@ -36,6 +36,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.UUID;
 
 import butterknife.ButterKnife;
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ConnectedThread mConnectedThread;
+
+    private PlaceholderFragment frag;
 
     // SPP UUID service - this should work for most devices
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -94,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
                     int dataLength = dataInPrint.length();							//get length of data received
              //       txtStringLength.setText("String Length = " + String.valueOf(dataLength));
 
+                    frag.init_aqi(dataInPrint);
+                    frag.init_sensor_values(dataInPrint);
 
                     if (recDataString.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
                     {
@@ -129,8 +134,9 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                     recDataString.delete(0, recDataString.length()); 					//clear all string data
-                    // strIncom =" ";
                     dataInPrint = " ";
+                    // strIncom =" ";
+
                     //}
                 }
             }
@@ -319,15 +325,22 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             byte[] buffer = new byte[256];
             int bytes;
-
+            String temp = "";
             // Keep looping to listen for received messages
             while (true) {
                 try {
                     bytes = mmInStream.read(buffer);        	//read bytes from input buffer
                     String readMessage = new String(buffer, 0, bytes);
-                    database(readMessage);
+                    if(readMessage != "~") {
+                        database(readMessage);
+                    }
+                    else {
+                        temp = readMessage;
+                    }
                     // Send the obtained bytes to the UI Activity via handler
-                    bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+                    if(temp == "~") {
+                        bluetoothIn.obtainMessage(handlerState, bytes, -1, readMessage).sendToTarget();
+                    }
                     // read_database();
                 } catch (IOException e) {
                     break;
@@ -336,17 +349,70 @@ public class MainActivity extends AppCompatActivity {
         }
         private void database(String data) {
 
+            String test = read_database();
+            String sensor_value_1 = "", sensor_value_2 = "";
+            try {
+                FileInputStream fis = openFileInput("database.txt");
+                InputStreamReader isr = new InputStreamReader(fis);
+
+                char[] inputBuffer= new char[100];
+                String s="";
+                int charRead;
+
+                while ((charRead=isr.read(inputBuffer))>0) {
+                    // char to string conversion
+                    String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                    s +=readstring;
+                }
+                isr.close();
+                sensor_value_1 = s;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (data.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
+            {
+                String temp, temp1;
+                temp = data.substring(1, data.indexOf(" "));
+                for (int i = 0; i < 13; i++) {
+                    if (i > 1 && i < 3) {
+                        sensor_value_2 = temp;
+                    }
+                    temp1 = data.substring(data.indexOf(" ") + 1);
+                    temp = temp1.substring(0, temp1.indexOf(" "));
+                }
+            }
             try {
                 FileOutputStream fileout=openFileOutput("database.txt", MODE_APPEND);
                 OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
-                outputWriter.write(data);
+                FileChannel channel = fileout.getChannel();
+                if(channel.size() == 0)
+                {
+                    outputWriter.write(data);
+                }
+                else
+                {
+                    if (!contains(sensor_value_1,sensor_value_2)) {
+                        outputWriter.write(data);
+                    }
+
+                }
+
                 outputWriter.close();
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        public boolean contains( String haystack, String needle ) {
+            haystack = haystack == null ? "" : haystack;
+            needle = needle == null ? "" : needle;
 
+            // Works, but is not the best.
+            //return haystack.toLowerCase().indexOf( needle.toLowerCase() ) > -1
+
+            return haystack.toLowerCase().contains( needle.toLowerCase() );
+        }
 
         //write method
         public void write(String input) {
@@ -443,9 +509,9 @@ public class MainActivity extends AppCompatActivity {
          * The fragment argument representing the section number for this
          * fragment.
          */
-        MainActivity holder;
+       // MainActivity holder;
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private String recDataString1;
+      //  private String DataString1;
         TextView pm25_value, pm10_value, co2_value, co_value, nh3_value, no2_value, o3_value, temperature, humidity;
         LinearLayout pm25, pm10, co2, co, nh3, no2, o3;
         /**
@@ -476,7 +542,7 @@ public class MainActivity extends AppCompatActivity {
                 ButterKnife.inject(this,rootView);
                 temperature = (TextView) rootView.findViewById(R.id.temperature);
                 humidity = (TextView) rootView.findViewById(R.id.humidity);
-                init_aqi();
+               // init_aqi();
                 return rootView;
 
             }
@@ -500,7 +566,7 @@ public class MainActivity extends AppCompatActivity {
                 no2_value = (TextView) rootView.findViewById(R.id.no2_value);
                 o3_value = (TextView) rootView.findViewById(R.id.o3_value);
 
-                init_sensor_values();
+              //  init_sensor_values();
 
                 return rootView;
             }
@@ -523,18 +589,18 @@ public class MainActivity extends AppCompatActivity {
             waveProgressbar2.setText("#FFFF00", 41);
         }
 
-        public void init_sensor_values()
+        public void init_sensor_values(String DataString1)
         {
-            recDataString1 = holder.read_database();
+            //DataString1 = holder.read_database();
             int j=0;
             String[] sensor_values = new String[7];
             for (int i = 0; i < 13; i++)
             {
                 if(i > 5) {
-                    sensor_values[j] = recDataString1.substring(0, recDataString1.indexOf(" ") - 1);
+                    sensor_values[j] = DataString1.substring(0, DataString1.indexOf(" "));
                     j++;
                 }
-                recDataString1 = recDataString1.substring(recDataString1.indexOf(" ")+1);
+                DataString1 = DataString1.substring(DataString1.indexOf(" ")+1);
             }
 
             pm25_value.setText(sensor_values[0]);
@@ -650,18 +716,18 @@ public class MainActivity extends AppCompatActivity {
                 pm25.setBackgroundColor(Color.parseColor("#ac3939"));
         }
 
-        public void init_aqi()
+        public void init_aqi(String DataString1)
         {
-            recDataString1 = holder.read_database();
+           // DataString1 = holder.read_database();
             int j = 0;
             String[] sensor_values = new String[3];
             for (int i = 0; i < 13; i++)
             {
                 if(i > 3 && i < 7) {
-                    sensor_values[j] = recDataString1.substring(0, recDataString1.indexOf(" ") - 1);
+                    sensor_values[j] = DataString1.substring(0, DataString1.indexOf(" "));
                     j++;
                 }
-                recDataString1 = recDataString1.substring(recDataString1.indexOf(" ")+1);
+                DataString1 = DataString1.substring(DataString1.indexOf(" ")+1);
             }
 
             temperature.setText(sensor_values[0]);
