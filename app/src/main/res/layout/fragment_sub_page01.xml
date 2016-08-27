@@ -37,8 +37,8 @@
              android:layout_height="90dp"
              android:background="@drawable/circle"
              android:gravity="center"
-             android:textSize = "10dp"
-             android:text="Sensor 0 Voltage = ????"
+             android:textSize = "30dp"
+             android:text="0"
              android:textAppearance="?android:attr/textAppearanceMedium"
               />
          <TextView
@@ -64,8 +64,8 @@
              android:layout_height="90dp"
              android:background="@drawable/circle"
              android:gravity="center"
-             android:textSize = "10dp"
-             android:text="Sensor 0 Voltage = ????"
+             android:textSize = "30dp"
+             android:text="0"
              android:textAppearance="?android:attr/textAppearanceMedium"
              />
     <TextView
