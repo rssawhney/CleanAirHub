@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bluetoothIn = new Handler() {
             public void handleMessage(android.os.Message msg) {
                 if (msg.what == handlerState) {
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     frag.init_aqi(dataInPrint);
                     frag.init_sensor_values(dataInPrint);
 
-                    if (recDataString.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
+               /*     if (recDataString.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
                     {
                         String temp, temp1;
                         temp = recDataString.substring(1,recDataString.indexOf(" "));
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                             sensorView0.setText(" Sensor 0 Voltage = " + sensor0 + "V");	//update the textviews with sensor values
                             sensorView1.setText(" Sensor 1 Voltage = " + sensor1 + "V");
                             sensorView2.setText(" Sensor 2 Voltage = " + sensor2 + "V");
-                            sensorView3.setText(" Sensor 3 Voltage = " + sensor3 + "V");*/
+                            sensorView3.setText(" Sensor 3 Voltage = " + sensor3 + "V");
                         String[] sensor_values = new String[10];
                         for (int i = 0; i < sensor_values.length; i++)
                         {
@@ -130,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
                         sensorView6.setText(" Sensor 6 Voltage = " + sensor_values[6] + "V");
                         sensorView7.setText(" Sensor 7 Voltage = " + sensor_values[7] + "V");
                         sensorView8.setText(" Sensor 8 Voltage = " + sensor_values[8] + "V");
-                        sensorView9.setText(" Sensor 9 Voltage = " + sensor_values[9] + "V");*/
+                        sensorView9.setText(" Sensor 9 Voltage = " + sensor_values[9] + "V");
 
-                    }
+                    }*/
                     recDataString.delete(0, recDataString.length()); 					//clear all string data
                     dataInPrint = " ";
                     // strIncom =" ";
@@ -170,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mConnectedThread = new ConnectedThread(btSocket);
         mConnectedThread.start();
-
+//frag.Init("778","#99cc00");
         //I send a character when resuming.beginning transmission to check device is connected
         //If it is not an exception will be thrown in the write method and finish() will be called
       //  mConnectedThread.write("x");
@@ -321,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             mmOutStream = tmpOut;
         }
 
-
+        @Override
         public void run() {
             byte[] buffer = new byte[256];
             int bytes;
@@ -349,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
         }
         private void database(String data) {
 
-            String test = read_database();
+
             String sensor_value_1 = "", sensor_value_2 = "";
             try {
                 FileInputStream fis = openFileInput("database.txt");
@@ -370,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if (data.charAt(0) == '#')								//if it starts with # we know it is what we are looking for
+            if (data.charAt(0) == '#')
             {
                 String temp, temp1;
                 temp = data.substring(1, data.indexOf(" "));
@@ -445,6 +448,10 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void click1(View v)
+    {
+        frag.init_aqi("10 10 10 10 500 10 10 10 10 10 10 10 10");
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -514,6 +521,7 @@ public class MainActivity extends AppCompatActivity {
       //  private String DataString1;
         TextView pm25_value, pm10_value, co2_value, co_value, nh3_value, no2_value, o3_value, temperature, humidity;
         LinearLayout pm25, pm10, co2, co, nh3, no2, o3;
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -543,6 +551,7 @@ public class MainActivity extends AppCompatActivity {
                 temperature = (TextView) rootView.findViewById(R.id.temperature);
                 humidity = (TextView) rootView.findViewById(R.id.humidity);
                // init_aqi();
+              //  Init("778","#99cc00");
                 return rootView;
 
             }
@@ -565,7 +574,7 @@ public class MainActivity extends AppCompatActivity {
                 nh3_value = (TextView) rootView.findViewById(R.id.nh3_value);
                 no2_value = (TextView) rootView.findViewById(R.id.no2_value);
                 o3_value = (TextView) rootView.findViewById(R.id.o3_value);
-
+             //   pm25.setBackgroundColor(Color.parseColor("#ffcc00"));
               //  init_sensor_values();
 
                 return rootView;
@@ -586,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
             int per = (Value*100)/1024;
             waveProgressbar2.setCurrent(per, value);
             waveProgressbar2.setWaveColor(color);
-            waveProgressbar2.setText("#FFFF00", 41);
+            waveProgressbar2.setText("#FFFF00", 81);
         }
 
         public void init_sensor_values(String DataString1)
@@ -747,6 +756,8 @@ public class MainActivity extends AppCompatActivity {
                 Init(sensor_values[2],"#ac3939");
 
         }
+
+
     }
 
 }
