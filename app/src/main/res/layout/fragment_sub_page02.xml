@@ -1,238 +1,235 @@
-
-
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:orientation="vertical"
-        android:isScrollContainer="false"
-        android:weightSum="1"
-        tools:context="com.sggscc.myapplication_6.MainActivity">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context="com.sggscc.myapplication_6.MainActivity">
     <RelativeLayout
-        android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:id="@+id/pm25_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
         android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
-
-        <TextView
-            android:id="@+id/pm25_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/pm25_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="PM 2.5"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/pm10_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_toEndOf="@+id/pm25_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        android:paddingBottom="80dp">
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
+            android:id="@+id/pm25_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/pm10_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/pm25_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/pm10_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="PM 10"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/pm25_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="PM 2.5"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/co2_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_below="@+id/pm25_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        <LinearLayout
+            android:id="@+id/pm10_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/pm25_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/co2_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/pm10_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/co2_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="CO2"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/pm10_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="PM 10"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/co_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_below="@+id/pm10_layout"
-        android:layout_toEndOf="@+id/co2_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        <LinearLayout
+            android:id="@+id/co2_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@+id/pm25_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/co_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/co2_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/co_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="CO"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/co2_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="CO2"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/nh3_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="30dp"
-        android:layout_below="@+id/co2_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        <LinearLayout
+            android:id="@+id/co_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/pm10_layout"
+            android:layout_toEndOf="@+id/co2_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/nh3_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/co_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/nh3_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="Ammonia"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/co_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="CO"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/no2_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_below="@+id/co_layout"
-        android:layout_toEndOf="@+id/nh3_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        <LinearLayout
+            android:id="@+id/nh3_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_below="@+id/co2_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/no2_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/nh3_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/no2_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="NO2"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/nh3_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="Ammonia"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/o3_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/nh3_layout"
-        android:orientation="vertical"
-        android:background="#009933"
-        android:clickable="true"
-        android:onClick="click">
+        <LinearLayout
+            android:id="@+id/no2_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/co_layout"
+            android:layout_toEndOf="@+id/nh3_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
 
-        <TextView
-            android:id="@+id/o3_value"
-            android:layout_width="150dp"
-            android:layout_height="80dp"
-            android:text="0"
-            android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/no2_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
 
-        <TextView
-            android:id="@+id/o3_text"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:textAlignment="center"
-            android:text="Ozone"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/no2_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="NO2"
+                android:textSize="20sp" />
 
-    </LinearLayout>
-</RelativeLayout>
-    </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/o3_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/nh3_layout"
+            android:orientation="vertical"
+            android:background="#009933"
+            android:clickable="true"
+            android:onClick="click">
+
+            <TextView
+                android:id="@+id/o3_value"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:text="0"
+                android:textAlignment="center"
+                android:paddingTop="10dp"
+                android:textSize="40sp" />
+
+            <TextView
+                android:id="@+id/o3_text"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:textAlignment="center"
+                android:text="Ozone"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
 
